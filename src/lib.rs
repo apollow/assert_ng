@@ -148,7 +148,6 @@ fn expand_assert_ng_helper(cx: &mut ExtCtxt, expr : &P<Expr>) -> P<Expr> {
             expand_assert_ng_helper(cx, given)
         }
         _ => {
-            //If it's a path, it's probably not a proper
             quote_expr!(cx, {})
         }
     }
@@ -197,12 +196,13 @@ fn expand_assert_ng_(cx: &mut ExtCtxt, _: Span, args: &[TokenTree], debug_only: 
     MacExpr::new(if debug_only {
         quote_expr!(cx, if cfg!(not(ndebug)) {
             $res;
+            panic!("");
         })
     } else {
-        quote_expr!(cx,
+        quote_expr!(cx, {
             $res;
             panic!("");
-        )
+        })
     })
 }
 
